@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2.7
 
 import math
 import pickle
@@ -9,7 +9,7 @@ pos = dict([(char, idx) for idx, char in enumerate(accepted_chars)])
 
 def normalize(line):
     """ Return only the subset of chars from accepted_chars.
-    This helps keep the  model relatively small by ignoring punctuation, 
+    This helps keep the  model relatively small by ignoring punctuation,
     infrequenty symbols, etc. """
     return [c.lower() for c in line if c.lower() in accepted_chars]
 
@@ -28,13 +28,13 @@ def train():
     # string has 0 probability.
     counts = [[10 for i in xrange(k)] for i in xrange(k)]
 
-    # Count transitions from big text file, taken 
+    # Count transitions from big text file, taken
     # from http://norvig.com/spell-correct.html
     for line in open('big.txt'):
         for a, b in ngram(2, line):
             counts[pos[a]][pos[b]] += 1
 
-    # Normalize the counts so that they become log probabilities.  
+    # Normalize the counts so that they become log probabilities.
     # We use log probabilities rather than straight probabilities to avoid
     # numeric underflow issues with long texts.
     # This contains a justification:
@@ -71,5 +71,5 @@ if __name__ == '__main__':
 
 
 
-    
-    
+
+
