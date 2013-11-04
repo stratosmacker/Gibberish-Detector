@@ -2,6 +2,7 @@
 
 import math
 import pickle
+import sys
 
 accepted_chars = 'abcdefghijklmnopqrstuvwxyz '
 
@@ -19,7 +20,7 @@ def ngram(n, l):
     for start in range(0, len(filtered) - n + 1):
         yield ''.join(filtered[start:start + n])
 
-def train():
+def train(f='big.txt'):
     """ Write a simple model as a pickle file """
     k = len(accepted_chars)
     # Assume we have seen 10 of each character pair.  This acts as a kind of
@@ -30,7 +31,8 @@ def train():
 
     # Count transitions from big text file, taken
     # from http://norvig.com/spell-correct.html
-    for line in open('big.txt'):
+    #^^^^^^ I am using the reviewedBookCorpus.txt file for THR related gibberish use
+    for line in open(f):
         for a, b in ngram(2, line):
             counts[pos[a]][pos[b]] += 1
 
@@ -67,7 +69,10 @@ def avg_transition_prob(l, log_prob_mat):
     return math.exp(log_prob / (transition_ct or 1))
 
 if __name__ == '__main__':
-    train()
+    f = 'big.txt'
+    if len(sys.argv) > 1:
+        f = sys.argv[1]
+    train(f)
 
 
 
